@@ -16,15 +16,17 @@ public class FileUtil {
     }
 
     public static int fread(String pathname) throws IOException {
+        int bufferSize = 8192;
         InputStream is = new FileInputStream(new File(pathname));
-        BufferedInputStream bis = new BufferedInputStream(is);
+        BufferedInputStream bis = new BufferedInputStream(is, bufferSize);
         DataInput ds = new DataInputStream(bis);
         return ds.readInt();
     }
 
     public static void fwrite(int content, String pathname) throws IOException {
+        int bufferSize = 8192;
         OutputStream os = new FileOutputStream(new File(pathname));
-        BufferedOutputStream bos = new BufferedOutputStream(os);
+        BufferedOutputStream bos = new BufferedOutputStream(os, bufferSize);
         DataOutput ds = new DataOutputStream(bos);
         ds.writeInt(content);
     }
