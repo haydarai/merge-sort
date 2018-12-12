@@ -2,15 +2,21 @@ package utils;
 
 import java.io.*;
 
-public class BasicInputStream implements BaseInputStream {
-    DataInputStream dataInputStream;
+public class FInputStream implements BaseInputStream {
     FileInputStream fileInputStream;
+    DataInputStream dataInputStream;
+    BufferedInputStream bufferedInputStream;
+
     @Override
     public void open(String filePath) throws FileNotFoundException {
         FileInputStream fis = new FileInputStream(new File(filePath));
-        DataInputStream dis = new DataInputStream(fis);
-        this.dataInputStream = dis;
+
+        BufferedInputStream bis = new BufferedInputStream(fis);
+        DataInputStream dis = new DataInputStream(bis);
+
         this.fileInputStream = fis;
+        this.bufferedInputStream = bis;
+        this.dataInputStream = dis;
     }
 
     @Override
@@ -22,8 +28,9 @@ public class BasicInputStream implements BaseInputStream {
     public boolean endOfStream() throws IOException {
         boolean isEndOfStream =  this.dataInputStream.available()==0;
         if(isEndOfStream){
-            this.dataInputStream.close();
             this.fileInputStream.close();
+            this.bufferedInputStream.close();
+            this.dataInputStream.close();
         }
         return isEndOfStream;
     }
