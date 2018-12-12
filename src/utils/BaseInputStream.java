@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public interface BaseInputStream {
-    void open(String filePath) throws FileNotFoundException;
+    void open(String filePath) throws IOException;
     int readNext() throws IOException;
     boolean endOfStream() throws IOException;
 }
