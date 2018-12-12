@@ -75,5 +75,36 @@ public class Main {
             file.delete();
         }
 
+        /*
+            Example of using MemoryMappedInputStream and MemoryMappedOutputStream. We set bufferSize to 16 in order to write
+            two integers to avoid BufferUnderflowException
+
+            docs java.nio.ByteBuffer:
+                Throws: BufferUnderflowException - If there are fewer than eight bytes remaining in this buffer
+         */
+        MemoryMappedInputStream memoryMappedInputStream = new MemoryMappedInputStream(16);
+        MemoryMappedOutputStream memoryMappedOutputStream = new MemoryMappedOutputStream(16);
+        System.out.println("Using MemoryMapped");
+        try {
+            // Example of writing data to file
+            memoryMappedOutputStream.create("tmp.dat");
+            memoryMappedOutputStream.write(42);
+            memoryMappedOutputStream.write(149);
+            memoryMappedOutputStream.close();
+
+            // Example of reading previously written data
+            memoryMappedInputStream.open("tmp.dat");
+            while (!memoryMappedInputStream.endOfStream()){
+                System.out.println(memoryMappedInputStream.readNext());
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            // Cleanup
+            File file = new File("tmp.dat");
+            file.delete();
+        }
     }
 }
