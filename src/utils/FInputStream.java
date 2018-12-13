@@ -3,9 +3,9 @@ package utils;
 import java.io.*;
 
 public class FInputStream implements BaseInputStream {
-    FileInputStream fileInputStream;
-    DataInputStream dataInputStream;
-    BufferedInputStream bufferedInputStream;
+    private FileInputStream fileInputStream;
+    private DataInputStream dataInputStream;
+    private BufferedInputStream bufferedInputStream;
 
     @Override
     public void open(String filePath) throws FileNotFoundException {

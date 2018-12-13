@@ -3,8 +3,8 @@ package utils;
 import java.io.*;
 
 public class BasicInputStream implements BaseInputStream {
-    DataInputStream dataInputStream;
-    FileInputStream fileInputStream;
+    private DataInputStream dataInputStream;
+    private FileInputStream fileInputStream;
     @Override
     public void open(String filePath) throws FileNotFoundException {
         FileInputStream fis = new FileInputStream(new File(filePath));

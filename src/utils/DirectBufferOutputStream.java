@@ -2,7 +2,6 @@ package utils;
 
 import java.io.*;
 import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
 
 public class DirectBufferOutputStream implements BaseOutputStream {
     private int bufferSize;

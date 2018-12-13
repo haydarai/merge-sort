@@ -1,7 +1,5 @@
 package utils;
 
-import java.io.DataInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public interface BaseInputStream {

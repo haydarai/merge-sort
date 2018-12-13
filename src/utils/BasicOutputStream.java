@@ -6,8 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class BasicOutputStream implements BaseOutputStream {
-    DataOutputStream dataOutputStream;
-    FileOutputStream fileOutputStream;
+    private DataOutputStream dataOutputStream;
+    private FileOutputStream fileOutputStream;
     @Override
     public void create(String filePath) throws IOException {
         File file = new File(filePath);

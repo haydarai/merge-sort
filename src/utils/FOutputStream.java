@@ -3,9 +3,9 @@ package utils;
 import java.io.*;
 
 public class FOutputStream implements BaseOutputStream {
-    FileOutputStream fileOutputStream;
-    BufferedOutputStream bufferedOutputStream;
-    DataOutputStream dataOutputStream;
+    private FileOutputStream fileOutputStream;
+    private BufferedOutputStream bufferedOutputStream;
+    private DataOutputStream dataOutputStream;
 
     @Override
     public void create(String filePath) throws IOException {

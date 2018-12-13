@@ -7,7 +7,6 @@ import java.nio.channels.FileChannel;
 public class DirectBufferInputStream implements BaseInputStream {
     private int bufferSize;
     private ByteBuffer byteBuffer;
-    private RandomAccessFile randomAccessFile;
     private FileChannel fileChannel;
 
     public DirectBufferInputStream(int bufferSize) {
@@ -27,8 +26,6 @@ public class DirectBufferInputStream implements BaseInputStream {
 
         this.byteBuffer = byteBuffer;
         this.fileChannel = fileChannel;
-        this.randomAccessFile = randomAccessFile;
-
     }
 
     @Override

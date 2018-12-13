@@ -7,9 +7,9 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 
 public class MemoryMappedOutputStream implements BaseOutputStream {
-    MappedByteBuffer mappedByteBuffer;
-    FileChannel fileChannel;
-    int bufferSize;
+    private MappedByteBuffer mappedByteBuffer;
+    private FileChannel fileChannel;
+    private int bufferSize;
     public MemoryMappedOutputStream(int bufferSize) {
         this.bufferSize = bufferSize;
     }
@@ -28,7 +28,7 @@ public class MemoryMappedOutputStream implements BaseOutputStream {
     }
 
     @Override
-    public void write(int value) throws IOException {
+    public void write(int value) {
         this.mappedByteBuffer.putInt(value);
     }
 

@@ -1,6 +1,6 @@
+import sort.DataGenerator;
 import utils.*;
 
-import java.io.EOFException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -8,13 +8,13 @@ import java.io.IOException;
 public class Main {
 
     public static void main(String[] args) {
-//        try {
-//            FileUtil.write(3, "./input.data");
-//            int input = FileUtil.read("./input.data");
-//            System.out.println(input);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            FileUtil.write(3, "./input.data");
+            int input = FileUtil.read("./input.data");
+            System.out.println(input);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         /*
             Example of using BasicInputStream and BasicOutputStream. Data will be written in bytes, so the BasicInputStream
@@ -139,6 +139,29 @@ public class Main {
             // Cleanup
             File file = new File("tmp.dat");
             file.delete();
+        }
+
+        /*
+            Example of generating data using DataGenerator class. Any class implementing BaseOutputStream can be passed
+            to the DataGenerator's constructor and will be used to generate the data.
+         */
+        BasicOutputStream datagenBasicOutputStream = new BasicOutputStream();
+        FOutputStream datagenFOutputStream = new FOutputStream();
+        MemoryMappedOutputStream datagenMemoryMappedOutputStream = new MemoryMappedOutputStream(8);
+        DirectBufferOutputStream datagenDirectBufferOutputStream = new DirectBufferOutputStream(8);
+
+        DataGenerator dataGenerator = new DataGenerator(datagenBasicOutputStream);
+        try {
+            dataGenerator.genereate(2,"tenRandomIntegers");
+
+            // In this an example we use BasicInputstream to read back the generated data
+            BasicInputStream datagenBasicInputStream = new BasicInputStream();
+            datagenBasicInputStream.open("data/tenRandomIntegers.dat");
+            while (!datagenBasicInputStream.endOfStream()){
+                System.out.println(datagenBasicInputStream.readNext());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
