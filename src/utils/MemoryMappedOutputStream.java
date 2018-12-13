@@ -10,6 +10,7 @@ public class MemoryMappedOutputStream implements BaseOutputStream {
     private MappedByteBuffer mappedByteBuffer;
     private FileChannel fileChannel;
     private int bufferSize;
+
     public MemoryMappedOutputStream(int bufferSize) {
         this.bufferSize = bufferSize;
     }
@@ -21,7 +22,7 @@ public class MemoryMappedOutputStream implements BaseOutputStream {
         FileChannel fileChannel = new RandomAccessFile(file, "rw").getChannel();
 
         // Read 4 bytes integer
-        MappedByteBuffer mappedByteBuffer = fileChannel.map(FileChannel.MapMode.READ_WRITE,0,this.bufferSize);
+        MappedByteBuffer mappedByteBuffer = fileChannel.map(FileChannel.MapMode.READ_WRITE, 0, this.bufferSize);
 
         this.mappedByteBuffer = mappedByteBuffer;
         this.fileChannel = fileChannel;

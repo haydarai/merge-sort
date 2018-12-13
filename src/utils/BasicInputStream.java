@@ -5,6 +5,7 @@ import java.io.*;
 public class BasicInputStream implements BaseInputStream {
     private DataInputStream dataInputStream;
     private FileInputStream fileInputStream;
+
     @Override
     public void open(String filePath) throws FileNotFoundException {
         FileInputStream fis = new FileInputStream(new File(filePath));
@@ -20,8 +21,8 @@ public class BasicInputStream implements BaseInputStream {
 
     @Override
     public boolean endOfStream() throws IOException {
-        boolean isEndOfStream =  this.dataInputStream.available()==0;
-        if(isEndOfStream){
+        boolean isEndOfStream = this.dataInputStream.available() == 0;
+        if (isEndOfStream) {
             this.dataInputStream.close();
             this.fileInputStream.close();
         }

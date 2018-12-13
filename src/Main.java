@@ -32,7 +32,7 @@ public class Main {
 
             // Example of reading previously written data
             basicInputStream.open("tmp.dat");
-            while (!basicInputStream.endOfStream()){
+            while (!basicInputStream.endOfStream()) {
                 System.out.println(basicInputStream.readNext());
             }
         } catch (FileNotFoundException e) {
@@ -62,7 +62,7 @@ public class Main {
 
             // Example of reading previously written data
             fInputStream.open("tmp.dat");
-            while (!fInputStream.endOfStream()){
+            while (!fInputStream.endOfStream()) {
                 System.out.println(fInputStream.readNext());
             }
         } catch (FileNotFoundException e) {
@@ -94,7 +94,7 @@ public class Main {
 
             // Example of reading previously written data
             memoryMappedInputStream.open("tmp.dat");
-            while (!memoryMappedInputStream.endOfStream()){
+            while (!memoryMappedInputStream.endOfStream()) {
                 System.out.println(memoryMappedInputStream.readNext());
             }
         } catch (FileNotFoundException e) {
@@ -126,7 +126,7 @@ public class Main {
 
             // Example of reading previously written data
             directBufferInputStream.open("tmp.dat");
-            while (!directBufferInputStream.endOfStream()){
+            while (!directBufferInputStream.endOfStream()) {
                 System.out.println(directBufferInputStream.readNext());
             }
         } catch (FileNotFoundException e) {
@@ -152,12 +152,12 @@ public class Main {
 
         DataGenerator dataGenerator = new DataGenerator(datagenBasicOutputStream);
         try {
-            dataGenerator.genereate(2,"tenRandomIntegers");
+            dataGenerator.genereate(2, "tenRandomIntegers");
 
             // In this an example we use BasicInputstream to read back the generated data
             BasicInputStream datagenBasicInputStream = new BasicInputStream();
             datagenBasicInputStream.open("data/tenRandomIntegers.dat");
-            while (!datagenBasicInputStream.endOfStream()){
+            while (!datagenBasicInputStream.endOfStream()) {
                 System.out.println(datagenBasicInputStream.readNext());
             }
         } catch (Exception e) {

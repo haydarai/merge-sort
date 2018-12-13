@@ -10,15 +10,17 @@ public class MemoryMappedInputStream implements BaseInputStream {
     private FileChannel fileChannel;
     private MappedByteBuffer mappedByteBuffer;
     private int bufferSize;
+
     public MemoryMappedInputStream(int bufferSize) {
         this.bufferSize = bufferSize;
     }
+
     @Override
     public void open(String filePath) throws IOException {
         File file = new File(filePath);
         FileChannel fileChannel = new RandomAccessFile(file, "r").getChannel();
 
-        MappedByteBuffer mappedByteBuffer = fileChannel.map(FileChannel.MapMode.READ_ONLY,0,bufferSize);
+        MappedByteBuffer mappedByteBuffer = fileChannel.map(FileChannel.MapMode.READ_ONLY, 0, bufferSize);
         this.fileChannel = fileChannel;
         this.mappedByteBuffer = mappedByteBuffer;
     }
@@ -30,6 +32,6 @@ public class MemoryMappedInputStream implements BaseInputStream {
 
     @Override
     public boolean endOfStream() {
-        return this.mappedByteBuffer.remaining()<=8;
+        return this.mappedByteBuffer.remaining() <= 8;
     }
 }

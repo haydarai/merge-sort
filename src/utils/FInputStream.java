@@ -26,8 +26,8 @@ public class FInputStream implements BaseInputStream {
 
     @Override
     public boolean endOfStream() throws IOException {
-        boolean isEndOfStream =  this.dataInputStream.available()==0;
-        if(isEndOfStream){
+        boolean isEndOfStream = this.dataInputStream.available() == 0;
+        if (isEndOfStream) {
             this.fileInputStream.close();
             this.bufferedInputStream.close();
             this.dataInputStream.close();
