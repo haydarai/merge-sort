@@ -77,7 +77,7 @@ public class Main {
 
         /*
             Example of using MemoryMappedInputStream and MemoryMappedOutputStream. We set bufferSize to 16 in order to write
-            two integers to avoid BufferUnderflowException
+            two integers to avoid BufferUnderflowException. (Why? Direct buffer can work with 8 though)
 
             docs java.nio.ByteBuffer:
                 Throws: BufferUnderflowException - If there are fewer than eight bytes remaining in this buffer
@@ -100,6 +100,40 @@ public class Main {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            // Cleanup
+            File file = new File("tmp.dat");
+            file.delete();
+        }
+
+        /*
+            Example of using DirectBufferInputStream and DirectBufferOutputStream. We set bufferSize to 16 in order to write
+            two integers to avoid BufferUnderflowException
+
+            docs java.nio.ByteBuffer:
+                Throws: BufferUnderflowException - If there are fewer than eight bytes remaining in this buffer
+         */
+        DirectBufferInputStream directBufferInputStream = new DirectBufferInputStream(8);
+        DirectBufferOutputStream directBufferOutputStream = new DirectBufferOutputStream(8);
+        System.out.println("Using DirectBuffer");
+        try {
+            // Example of writing data to file
+            directBufferOutputStream.create("tmp.dat");
+            directBufferOutputStream.write(42);
+            directBufferOutputStream.write(149);
+            directBufferOutputStream.close();
+
+            // Example of reading previously written data
+            directBufferInputStream.open("tmp.dat");
+            while (!directBufferInputStream.endOfStream()){
+                System.out.println(directBufferInputStream.readNext());
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             // Cleanup
