@@ -23,12 +23,10 @@ public class MergeSort {
         this.outputStream = outputStream;
 
 
-        // write the sorted array to temporary file
         File dataDir = new File(this.DATADIR);
         if (!dataDir.exists()) {
             dataDir.mkdir();
         }
-        // write the sorted array to temporary file
         File tmpDir = new File(this.TMPDIR);
         if (!tmpDir.exists()) {
             tmpDir.mkdir();
