@@ -1,0 +1,8 @@
+Input,Basic,10,1
+Output,Basic,10,1
+Input,File,10,1
+Output,File,10,1
+Input,Memory,10,1,8
+Output,Memory,10,1,8
+Input,Buffer,10,1,8
+Output,Buffer,10,1,8

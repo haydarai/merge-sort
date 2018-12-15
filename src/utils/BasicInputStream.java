@@ -9,8 +9,7 @@ public class BasicInputStream implements BaseInputStream {
     @Override
     public void open(String filePath) throws FileNotFoundException {
         FileInputStream fis = new FileInputStream(new File(filePath));
-        DataInputStream dis = new DataInputStream(fis);
-        this.dataInputStream = dis;
+        this.dataInputStream = new DataInputStream(fis);
         this.fileInputStream = fis;
     }
 
