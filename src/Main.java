@@ -17,14 +17,15 @@ public class Main {
             // Creating sample data to sort, assume that data/ directory is created
             basicOutputStream.create("data/input.dat");
             basicOutputStream.write(42);
-            basicOutputStream.write(149);
-            basicOutputStream.write(21);
+
             basicOutputStream.write(54);
             basicOutputStream.write(642);
-            basicOutputStream.write(232);
+            basicOutputStream.write(-232);
             basicOutputStream.write(59);
             basicOutputStream.write(80);
             basicOutputStream.write(77);
+            basicOutputStream.write(149);
+            basicOutputStream.write(-21);
             basicOutputStream.close();
 
         } catch (IOException e) {
@@ -32,8 +33,8 @@ public class Main {
         }
 
         try {
-            mergeSort.doSort("data/input.dat", 2);
-            mergeSort.doMerge(2);
+            mergeSort.sort("data/input.dat", 2);
+            mergeSort.merge(2);
 
             basicInputStream.open("data/result.dat");
             while (!basicInputStream.endOfStream()) {

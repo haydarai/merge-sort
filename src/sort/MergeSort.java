@@ -18,6 +18,8 @@ public class MergeSort {
     private String TMPDIR = "data/tmp/";
     private String DATADIR = "data/";
 
+    private ArrayList<Thread> worksers;
+
     public MergeSort(BaseInputStream inputStream, BaseOutputStream outputStream) {
         this.inputStream = inputStream;
         this.outputStream = outputStream;
@@ -33,7 +35,7 @@ public class MergeSort {
         }
     }
 
-    public void doSort(String filePath, int availableMemory) throws Exception {
+    public void sort(String filePath, int availableMemory) throws Exception {
         File inputFile = new File(filePath);
 
         // WARNING: This assume that each int consists of 4 bytes (hence, it's a 32-bit integers
@@ -43,29 +45,33 @@ public class MergeSort {
         inputStream.open(filePath);
         int position = 0;
 
-        // TODO: Parallelize the internal memory sorting process to as many as filePath/availableMemory
+        ArrayList<Thread> workers = new ArrayList<>();
+
         while (position < fileLength) {
-            // read content of file as int
-            ArrayList<Integer> bucket = new ArrayList<>();
-            for (int i = 0; i < availableMemory && !inputStream.endOfStream(); i++) {
-                int toBeAddedToBucket = inputStream.readNext();
-                bucket.add(toBeAddedToBucket);
-            }
+            // instantiate new inputStream and skip to the position
+            BaseInputStream nextInStream = inputStream.getClass().newInstance().open(filePath).skip(position);
 
-            // sort the array
-            sort(bucket.toArray());
+            // instantiate outputStream to write intermediate files
+            BaseOutputStream nextOutStream = outputStream.getClass().newInstance();
 
-            outputStream.create(this.TMPDIR.concat(String.valueOf(java.util.UUID.randomUUID())).concat(".dat"));
-            // write the output to intermediate file
-            for (int i = 0; i < availableMemory & i < bucket.size(); i++) {
-                outputStream.write(bucket.get(i));
-            }
+            // instantiate sortWorker to sort particular area of the input
+            Thread nextWorker = new Thread(new SortWorker(nextInStream, nextOutStream, availableMemory, this.TMPDIR));
+            nextWorker.start();
+
+            // keep all threads in an arrayList so that all of them can be joined later
+            workers.add(nextWorker);
+
             position += availableMemory;
         }
-        outputStream.close();
+        this.worksers = workers;
     }
 
-    public void doMerge(int numberOfStreamToMerge) throws Exception {
+    public void merge(int numberOfStreamToMerge) throws Exception {
+        // wait for all workers to finish
+        for(Thread worker:this.worksers){
+            worker.join();
+        }
+
         // list all intermediate files
         File dir = new File(this.TMPDIR);
         File[] listOfFiles = dir.listFiles();
