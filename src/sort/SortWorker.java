@@ -42,7 +42,9 @@ class SortWorker implements Runnable{
             for (int i = 0; i < this.availableMemory & i < bucket.size(); i++) {
                 outputStream.write(bucket.get(i));
             }
-        } catch (IOException e) {
+
+            outputStream.close();
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
