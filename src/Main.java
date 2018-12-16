@@ -8,8 +8,8 @@ public class Main {
 
     public static void main(String[] args) {
 
-        BasicInputStream basicInputStream = new BasicInputStream();
-        BasicOutputStream basicOutputStream = new BasicOutputStream();
+        FInputStream basicInputStream = new FInputStream();
+        FOutputStream basicOutputStream = new FOutputStream();
 
         MergeSort mergeSort = new MergeSort(basicInputStream, basicOutputStream);
 
