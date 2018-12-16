@@ -15,7 +15,7 @@ public class DirectBufferInputStream implements BaseInputStream {
     }
 
     @Override
-    public void open(String filePath) throws IOException {
+    public DirectBufferInputStream open(String filePath) throws IOException {
         RandomAccessFile randomAccessFile = new RandomAccessFile(filePath, "rw");
         FileChannel fileChannel = randomAccessFile.getChannel();
         ByteBuffer byteBuffer = ByteBuffer.allocateDirect(this.bufferSize);
@@ -27,6 +27,8 @@ public class DirectBufferInputStream implements BaseInputStream {
 
         this.byteBuffer = byteBuffer;
         this.fileChannel = fileChannel;
+
+        return this;
     }
 
     @Override
@@ -40,5 +42,11 @@ public class DirectBufferInputStream implements BaseInputStream {
         // Stream should end when the position of byteBuffer reach the fileChannel's size
         boolean isEndOfStream = this.fileChannel.size() == byteBuffer.position();
         return isEndOfStream;
+    }
+
+    @Override
+    public DirectBufferInputStream skip(int n) throws IOException {
+        this.byteBuffer.position(this.byteBuffer.position()+4*n);
+        return this;
     }
 }

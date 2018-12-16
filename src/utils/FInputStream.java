@@ -8,7 +8,7 @@ public class FInputStream implements BaseInputStream {
     private BufferedInputStream bufferedInputStream;
 
     @Override
-    public void open(String filePath) throws FileNotFoundException {
+    public FInputStream open(String filePath) throws FileNotFoundException {
         FileInputStream fis = new FileInputStream(new File(filePath));
 
         BufferedInputStream bis = new BufferedInputStream(fis);
@@ -17,6 +17,8 @@ public class FInputStream implements BaseInputStream {
         this.fileInputStream = fis;
         this.bufferedInputStream = bis;
         this.dataInputStream = dis;
+
+        return this;
     }
 
     @Override
@@ -33,5 +35,11 @@ public class FInputStream implements BaseInputStream {
             this.dataInputStream.close();
         }
         return isEndOfStream;
+    }
+
+    @Override
+    public FInputStream skip(int n) throws IOException {
+        this.dataInputStream.skipBytes(4*n);
+        return this;
     }
 }
