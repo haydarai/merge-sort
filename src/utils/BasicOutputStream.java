@@ -10,6 +10,11 @@ public class BasicOutputStream implements BaseOutputStream {
     private FileOutputStream fileOutputStream;
 
     @Override
+    public BaseOutputStream setBufferSize(int bufferSize) {
+        return this;
+    }
+
+    @Override
     public void create(String filePath) throws IOException {
         File file = new File(filePath);
         file.createNewFile();

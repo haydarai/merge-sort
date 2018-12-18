@@ -8,6 +8,11 @@ public class FOutputStream implements BaseOutputStream {
     private DataOutputStream dataOutputStream;
 
     @Override
+    public BaseOutputStream setBufferSize(int bufferSize) {
+        return this;
+    }
+
+    @Override
     public void create(String filePath) throws IOException {
         File file = new File(filePath);
         file.createNewFile();

@@ -15,6 +15,15 @@ public class MemoryMappedOutputStream implements BaseOutputStream {
         this.bufferSize = bufferSize;
     }
 
+    public MemoryMappedOutputStream() {
+    }
+
+    @Override
+    public BaseOutputStream setBufferSize(int bufferSize) {
+        this.bufferSize = bufferSize;
+        return this;
+    }
+
     @Override
     public void create(String filePath) throws IOException {
         File file = new File(filePath);

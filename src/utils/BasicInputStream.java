@@ -7,10 +7,17 @@ public class BasicInputStream implements BaseInputStream {
     private FileInputStream fileInputStream;
 
     @Override
-    public void open(String filePath) throws FileNotFoundException {
+    public BaseInputStream setBufferSize(int bufferSize) {
+        return this;
+    }
+
+    @Override
+    public BasicInputStream open(String filePath) throws FileNotFoundException {
         FileInputStream fis = new FileInputStream(new File(filePath));
         this.dataInputStream = new DataInputStream(fis);
         this.fileInputStream = fis;
+
+        return this;
     }
 
     @Override
@@ -26,5 +33,11 @@ public class BasicInputStream implements BaseInputStream {
             this.fileInputStream.close();
         }
         return isEndOfStream;
+    }
+
+    @Override
+    public BasicInputStream skip(int n) throws IOException {
+        this.dataInputStream.skipBytes(4*n);
+        return this;
     }
 }
