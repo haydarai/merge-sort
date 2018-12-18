@@ -16,6 +16,7 @@ class InputBenchmark {
     private BenchmarkConfig config;
     private List<Stream> streams;
     private int n;
+    private String RESULT_DIR = "results/";
 
     InputBenchmark(BenchmarkConfig config, List<BaseInputStream> streams, List<String> filenames, int n) {
         this.config = config;
@@ -25,12 +26,18 @@ class InputBenchmark {
             this.streams.add(new Stream(streams.get(i), filenames.get(i)));
         }
         this.n = n;
+
+        // Create RESULT_DIR if not exists
+        File dataDir = new File(this.RESULT_DIR);
+        if (!dataDir.exists()) {
+            dataDir.mkdir();
+        }
     }
 
     void run() {
         String outputFileName = config.generateResultFilename();
         try {
-            final BufferedWriter writer = new BufferedWriter(new FileWriter(new File("results", outputFileName),
+            final BufferedWriter writer = new BufferedWriter(new FileWriter(new File(this.RESULT_DIR, outputFileName),
                     true));
             final long startBenchmarkTime = System.nanoTime();
             for (int i = 0; i < n; i++) {
