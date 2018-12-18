@@ -14,6 +14,15 @@ public class DirectBufferInputStream implements BaseInputStream {
         this.bufferSize = bufferSize;
     }
 
+    public DirectBufferInputStream() {
+    }
+
+    @Override
+    public BaseInputStream setBufferSize(int bufferSize) {
+        this.bufferSize = 64;
+        return this;
+    }
+
     @Override
     public DirectBufferInputStream open(String filePath) throws IOException {
         RandomAccessFile randomAccessFile = new RandomAccessFile(filePath, "rw");

@@ -40,7 +40,8 @@ class SortWorker implements Runnable{
             outputStream.create(this.tmpDir.concat(String.valueOf(UUID.randomUUID())).concat(".dat"));
             // write the output to intermediate file
             for (int i = 0; i < this.availableMemory & i < bucket.size(); i++) {
-                outputStream.write(bucket.get(i));
+                int toBeFlushed = bucket.get(i);
+                this.outputStream.write(toBeFlushed);
             }
 
             outputStream.close();

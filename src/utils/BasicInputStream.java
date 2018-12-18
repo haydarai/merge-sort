@@ -7,6 +7,11 @@ public class BasicInputStream implements BaseInputStream {
     private FileInputStream fileInputStream;
 
     @Override
+    public BaseInputStream setBufferSize(int bufferSize) {
+        return this;
+    }
+
+    @Override
     public BasicInputStream open(String filePath) throws FileNotFoundException {
         FileInputStream fis = new FileInputStream(new File(filePath));
         this.dataInputStream = new DataInputStream(fis);
