@@ -6,8 +6,6 @@ import utils.BaseOutputStream;
 import java.io.File;
 import java.util.*;
 
-import static java.util.Arrays.sort;
-
 /*
     Both availableMemory and fileLength is measured in the number of 32-bit integer.
  */
@@ -17,13 +15,11 @@ public class MergeSort {
 
     private String TMPDIR = "data/tmp/";
     private String DATADIR = "data/";
-
     private ArrayList<Thread> worksers;
 
     public MergeSort(BaseInputStream inputStream, BaseOutputStream outputStream) {
         this.inputStream = inputStream;
         this.outputStream = outputStream;
-
 
         File dataDir = new File(this.DATADIR);
         if (!dataDir.exists()) {
@@ -33,13 +29,19 @@ public class MergeSort {
         if (!tmpDir.exists()) {
             tmpDir.mkdir();
         }
+
+        // make sure that tmp directory is empty
+        File[] listOfFiles = tmpDir.listFiles();
+        for (File file:listOfFiles) {
+            file.delete();
+        }
+
     }
 
     public void sort(String filePath, int availableMemory) throws Exception {
-        File inputFile = new File(filePath);
-
+        File unsortedFile = new File(filePath);
         // WARNING: This assume that each int consists of 4 bytes (hence, it's a 32-bit integers
-        long fileLength = inputFile.length() / 4;
+        long fileLength = unsortedFile.length() / 4;
 
         // open stream
         inputStream.open(filePath);
@@ -48,11 +50,19 @@ public class MergeSort {
         ArrayList<Thread> workers = new ArrayList<>();
 
         while (position < fileLength) {
+            int bufferSize;
+            if((fileLength - position) < availableMemory){
+                bufferSize = (int) (fileLength - position);
+            } else {
+                bufferSize = availableMemory;
+            }
+            bufferSize *= 4;
+
             // instantiate new inputStream and skip to the position
-            BaseInputStream nextInStream = inputStream.getClass().newInstance().open(filePath).skip(position);
+            BaseInputStream nextInStream = this.inputStream.getClass().newInstance().setBufferSize(bufferSize).open(filePath).skip(position);
 
             // instantiate outputStream to write intermediate files
-            BaseOutputStream nextOutStream = outputStream.getClass().newInstance();
+            BaseOutputStream nextOutStream = this.outputStream.getClass().newInstance().setBufferSize(bufferSize);
 
             // instantiate sortWorker to sort particular area of the input
             Thread nextWorker = new Thread(new SortWorker(nextInStream, nextOutStream, availableMemory, this.TMPDIR));
@@ -87,7 +97,8 @@ public class MergeSort {
         // for all streams opened, add stream.readNext() to pq
         assert listOfFiles != null;
         for (int i = 0; i < listOfFiles.length; i++) {
-            BaseInputStream inputStreamToAdd = inputStream.getClass().newInstance();
+            int cFileLength = (int) listOfFiles[i].length();
+            BaseInputStream inputStreamToAdd = this.inputStream.getClass().newInstance().setBufferSize(cFileLength);
             inputStreamToAdd.open(listOfFiles[i].getPath());
 
             int valToAdd = inputStreamToAdd.readNext();
@@ -98,15 +109,16 @@ public class MergeSort {
         while (!pq.isEmpty()) {
             // write pq.remove() to outputstream
             Map.Entry<BaseInputStream, Integer> removedEntry = pq.peek();
-            outputStream.write(pq.remove().getValue());
+            this.outputStream.write(pq.remove().getValue());
 
             // insert removed pq stream to pq
             if (!removedEntry.getKey().endOfStream()) {
-                pq.add(new AbstractMap.SimpleEntry<>(removedEntry.getKey(), removedEntry.getKey().readNext()));
+                int entryVal = removedEntry.getKey().readNext();
+                pq.add(new AbstractMap.SimpleEntry<>(removedEntry.getKey(), entryVal));
             }
         }
         // close the outstream
-        outputStream.close();
+        this.outputStream.close();
         // delete tempFiles
         for (File tmpFile : listOfFiles) {
             tmpFile.delete();

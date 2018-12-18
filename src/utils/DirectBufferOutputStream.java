@@ -14,6 +14,15 @@ public class DirectBufferOutputStream implements BaseOutputStream {
         this.bufferSize = bufferSize;
     }
 
+    public DirectBufferOutputStream() {
+    }
+
+    @Override
+    public BaseOutputStream setBufferSize(int bufferSize) {
+        this.bufferSize = 64;
+        return this;
+    }
+
     @Override
     public void create(String filePath) throws IOException {
         File file = new File(filePath);

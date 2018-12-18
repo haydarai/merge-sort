@@ -2,43 +2,40 @@ import sort.MergeSort;
 import utils.*;
 import benchmark.BenchmarkRunner;
 
-import java.io.IOException;
-
 public class Main {
 
     public static void main(String[] args) {
 
-        FInputStream basicInputStream = new FInputStream();
-        FOutputStream basicOutputStream = new FOutputStream();
+        // 36 is the 4 times total length of the input file
+        MemoryMappedInputStream inputStream = new MemoryMappedInputStream(36);
+        MemoryMappedOutputStream outputStream = new MemoryMappedOutputStream(36);
 
-        MergeSort mergeSort = new MergeSort(basicInputStream, basicOutputStream);
+        MergeSort mergeSort = new MergeSort(inputStream, outputStream);
 
         try {
             // Creating sample data to sort, assume that data/ directory is created
-            basicOutputStream.create("data/input.dat");
-            basicOutputStream.write(42);
-
-            basicOutputStream.write(54);
-            basicOutputStream.write(642);
-            basicOutputStream.write(-232);
-            basicOutputStream.write(59);
-            basicOutputStream.write(80);
-            basicOutputStream.write(77);
-            basicOutputStream.write(149);
-            basicOutputStream.write(-21);
-            basicOutputStream.close();
-
-        } catch (IOException e) {
+            outputStream.create("data/input.dat");
+            outputStream.write(42);
+            outputStream.write(54);
+            outputStream.write(-232);
+            outputStream.write(59);
+            outputStream.write(81);
+            outputStream.write(77);
+            outputStream.write(149);
+            outputStream.write(-21);
+            outputStream.write(642);
+            outputStream.close();
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
         try {
-            mergeSort.sort("data/input.dat", 2);
+            mergeSort.sort("data/input.dat", 6);
             mergeSort.merge(2);
 
-            basicInputStream.open("data/result.dat");
-            while (!basicInputStream.endOfStream()) {
-                System.out.println(basicInputStream.readNext());
+            inputStream.open("data/result.dat");
+            while (!inputStream.endOfStream()) {
+                System.out.println(inputStream.readNext());
             }
         } catch (Exception e) {
             e.printStackTrace();

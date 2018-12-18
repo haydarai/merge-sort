@@ -8,6 +8,11 @@ public class FInputStream implements BaseInputStream {
     private BufferedInputStream bufferedInputStream;
 
     @Override
+    public BaseInputStream setBufferSize(int bufferSize) {
+        return this;
+    }
+
+    @Override
     public FInputStream open(String filePath) throws FileNotFoundException {
         FileInputStream fis = new FileInputStream(new File(filePath));
 
