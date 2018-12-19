@@ -40,7 +40,21 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        BenchmarkRunner runner = new BenchmarkRunner("stream-input.csv");
-        runner.run();
+        BenchmarkRunner basicInputRunner = new BenchmarkRunner("basic-stream-input.csv");
+        basicInputRunner.run();
+        BenchmarkRunner basicOutputRunner = new BenchmarkRunner("basic-stream-output.csv");
+        basicOutputRunner.run();
+        BenchmarkRunner fileInputRunner = new BenchmarkRunner("file-stream-input.csv");
+        fileInputRunner.run();
+        BenchmarkRunner fileOutputRunner = new BenchmarkRunner("file-stream-output.csv");
+        fileOutputRunner.run();
+        BenchmarkRunner bufferInputRunner = new BenchmarkRunner("buffer-stream-input.csv");
+        bufferInputRunner.run();
+        BenchmarkRunner bufferOutputRunner = new BenchmarkRunner("buffer-stream-output.csv");
+        bufferOutputRunner.run();
+        BenchmarkRunner memoryInputRunner = new BenchmarkRunner("memory-stream-input.csv");
+        memoryInputRunner.run();
+        BenchmarkRunner memoryOutputRunner = new BenchmarkRunner("memory-stream-output.csv");
+        memoryOutputRunner.run();
     }
 }
