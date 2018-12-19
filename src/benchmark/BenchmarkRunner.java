@@ -71,7 +71,7 @@ public class BenchmarkRunner {
                 continue;
             }
             try {
-                fileNames.add(generator.generate(0, String.valueOf(i)));
+                fileNames.add(generator.generate(config.getRunNumber(), String.valueOf(i)));
             } catch (Exception e) {
                 e.printStackTrace();
             }
