@@ -40,7 +40,7 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        BenchmarkRunner runner = new BenchmarkRunner("input.csv");
+        BenchmarkRunner runner = new BenchmarkRunner("stream-input.csv");
         runner.run();
     }
 }
