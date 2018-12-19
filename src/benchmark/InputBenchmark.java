@@ -1,6 +1,8 @@
 package benchmark;
 
+import com.google.gson.Gson;
 import models.BenchmarkConfig;
+import models.BenchmarkResult;
 import utils.BaseInputStream;
 
 import java.io.BufferedWriter;
@@ -39,14 +41,15 @@ class InputBenchmark {
         try {
             final BufferedWriter writer = new BufferedWriter(new FileWriter(new File(this.RESULT_DIR, outputFileName),
                     true));
-            final long startBenchmarkTime = System.nanoTime();
+            BenchmarkResult.Summary streamSummary = new BenchmarkResult.Summary();
+            streamSummary.setStart(System.nanoTime());
+            BenchmarkResult result = new BenchmarkResult();
             streams
                     .parallelStream()
                     .forEach(stream -> {
+                        BenchmarkResult.Stream streamResult = new BenchmarkResult.Stream();
+                        streamResult.setStart(System.nanoTime());
                         try {
-                            long startTime = System.nanoTime();
-                            writer.write("Start read: " + String.valueOf(startTime) + ", ");
-
                             BaseInputStream inputStream = stream.getStream();
                             String filename = stream.getFilename();
                             inputStream.open(filename);
@@ -54,23 +57,17 @@ class InputBenchmark {
                                 inputStream.readNext();
                             }
 
-                            long endTime = System.nanoTime();
-                            long elapsedTime = endTime - startTime;
-                            long elapsedTimeBenchmark = endTime - startBenchmarkTime;
-                            writer.write("End read: " + String.valueOf(endTime) + ", ");
-                            writer.write("Elapsed time (since start read): " +
-                                    String.valueOf(elapsedTime) + ", ");
-                            writer.write("Elapsed time (since start benchmark): " +
-                                    String.valueOf(elapsedTimeBenchmark) + "\n");
+                            streamResult.setEnd(System.nanoTime());
+                            streamResult.setElapsed(streamResult.getEnd() - streamResult.getStart());
+                            result.addStream(streamResult);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
                     });
-            long endBenchmarkTime = System.nanoTime();
-            long elapsedWholeTimeBenchmark = endBenchmarkTime - startBenchmarkTime;
-            writer.write("Start benchmark: " + String.valueOf(startBenchmarkTime) + ", End benchmark: " +
-                    String.valueOf(endBenchmarkTime) + ", Elapsed time (whole benchmark): " +
-                    String.valueOf(elapsedWholeTimeBenchmark));
+            streamSummary.setEnd(System.nanoTime());
+            streamSummary.setElapsed(streamSummary.getEnd() - streamSummary.getStart());
+            Gson gson = new Gson();
+            writer.write(gson.toJson(result));
             writer.close();
 
             // Cleanup

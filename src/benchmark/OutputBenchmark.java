@@ -1,6 +1,8 @@
 package benchmark;
 
+import com.google.gson.Gson;
 import models.BenchmarkConfig;
+import models.BenchmarkResult;
 import utils.BaseOutputStream;
 
 import java.io.BufferedWriter;
@@ -29,29 +31,25 @@ class OutputBenchmark {
         try {
             final BufferedWriter writer = new BufferedWriter(new FileWriter(new File("results", outputFileName),
                     true));
-            final long startBenchmarkTime = System.nanoTime();
+            BenchmarkResult.Summary streamSummary = new BenchmarkResult.Summary();
+            streamSummary.setStart(System.nanoTime());
+            BenchmarkResult result = new BenchmarkResult();
             streams
                     .parallelStream()
                     .forEach(stream -> {
+                        BenchmarkResult.Stream streamResult = new BenchmarkResult.Stream();
+                        streamResult.setStart(System.nanoTime());
                         String filename = String.valueOf(UUID.randomUUID()) + ".dat";
                         try {
-                            long startTime = System.nanoTime();
-                            writer.write("Start write: " + String.valueOf(startTime) + ", ");
-
                             stream.create(filename);
                             for (int i = 0; i < n; i++) {
                                 stream.write(random.nextInt());
                             }
                             stream.close();
 
-                            long endTime = System.nanoTime();
-                            long elapsedTime = endTime - startTime;
-                            long elapsedTimeBenchmark = endTime - startBenchmarkTime;
-                            writer.write("End write: " + String.valueOf(endTime) + ", ");
-                            writer.write("Elapsed time (since start write): " +
-                                    String.valueOf(elapsedTime) + ", ");
-                            writer.write("Elapsed time (since start benchmark): " +
-                                    String.valueOf(elapsedTimeBenchmark) + "\n");
+                            streamResult.setEnd(System.nanoTime());
+                            streamResult.setElapsed(streamResult.getEnd() - streamResult.getStart());
+                            result.addStream(streamResult);
                         } catch (Exception e) {
                             e.printStackTrace();
                         } finally {
@@ -59,11 +57,10 @@ class OutputBenchmark {
                             file.delete();
                         }
                     });
-            long endBenchmarkTime = System.nanoTime();
-            long elapsedWholeTimeBenchmark = endBenchmarkTime - startBenchmarkTime;
-            writer.write("Start benchmark: " + String.valueOf(startBenchmarkTime) + ", End benchmark: " +
-                    String.valueOf(endBenchmarkTime) + ", Elapsed time (whole benchmark): " +
-                    String.valueOf(elapsedWholeTimeBenchmark));
+            streamSummary.setEnd(System.nanoTime());
+            streamSummary.setElapsed(streamSummary.getEnd() - streamSummary.getStart());
+            Gson gson = new Gson();
+            writer.write(gson.toJson(result));
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();

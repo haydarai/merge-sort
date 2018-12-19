@@ -27,7 +27,7 @@ public class BenchmarkConfig {
     }
 
     public String generateResultFilename() {
-        resultFileName = String.format("%d_%s_%s_%d_%d_%d.dat", Instant.now().getEpochSecond(), type, kind, n, k, b);
+        resultFileName = String.format("%d_%s_%s_%d_%d_%d.json", Instant.now().getEpochSecond(), type, kind, n, k, b);
         return resultFileName;
     }
 
