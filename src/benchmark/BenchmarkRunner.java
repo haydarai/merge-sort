@@ -19,16 +19,23 @@ public class BenchmarkRunner {
         try {
             List<BenchmarkConfig> configs = BenchmarkInputReader.readCSV(filepath);
             for (BenchmarkConfig config: configs) {
-                String type = config.getType();
-
-                switch (type) {
-                    case "Input": {
-                        runInput(config);
-                        break;
-                    }
-                    case "Output": {
-                        runOutput(config);
-                        break;
+                String kind = config.getKind();
+                if (kind.equalsIgnoreCase("Merge-Sort")) {
+                    runMergeSort(config);
+                } else {
+                    String type = config.getType();
+                    switch (type) {
+                        case "Input": {
+                            runInput(config);
+                            break;
+                        }
+                        case "Output": {
+                            runOutput(config);
+                            break;
+                        }
+                        default: {
+                            runMergeSort(config);
+                        }
                     }
                 }
             }
@@ -102,5 +109,10 @@ public class BenchmarkRunner {
 
         OutputBenchmark outputBenchmark = new OutputBenchmark(config, outputStreams, n);
         outputBenchmark.run();
+    }
+
+    private void runMergeSort(BenchmarkConfig config) {
+        MergeSortBenchmark benchmark = new MergeSortBenchmark(config);
+        benchmark.run();
     }
 }

@@ -31,14 +31,21 @@ public class BenchmarkInputReader {
         for (List<String> row : dataFrame) {
             try {
                 String kind = row.get(0);
-                String type = row.get(1);
-                int n = Integer.parseInt(row.get(2));
-                int k = Integer.parseInt(row.get(3));
-                if (row.size() == 5) {
-                    int b = Integer.parseInt(row.get(4));
-                    benchmarkConfigs.add(new BenchmarkConfig(kind, type, n, k, b));
+                if (kind.equalsIgnoreCase("Merge-Sort")) {
+                    int n = Integer.parseInt(row.get(1));
+                    int m = Integer.parseInt(row.get(2));
+                    int d = Integer.parseInt(row.get(3));
+                    benchmarkConfigs.add(new BenchmarkConfig(kind, n, m, d));
                 } else {
-                    benchmarkConfigs.add(new BenchmarkConfig(kind, type, n, k));
+                    String type = row.get(1);
+                    int n = Integer.parseInt(row.get(2));
+                    int k = Integer.parseInt(row.get(3));
+                    if (row.size() == 5) {
+                        int b = Integer.parseInt(row.get(4));
+                        benchmarkConfigs.add(new BenchmarkConfig(kind, type, n, k, b));
+                    } else {
+                        benchmarkConfigs.add(new BenchmarkConfig(kind, type, n, k));
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();

@@ -8,26 +8,39 @@ public class BenchmarkConfig {
     private int n;
     private int k;
     private int b;
+    private int m;
+    private int d;
     private String resultFileName;
 
-    public BenchmarkConfig(String type, String kind, int runNumber, int streamNumber) {
-        this.type = type;
+    public BenchmarkConfig(String kind, String type, int runNumber, int streamNumber) {
         this.kind = kind;
+        this.type = type;
         this.n = runNumber;
         this.k = streamNumber;
         this.b = 0;
     }
 
-    public BenchmarkConfig(String type, String kind, int runNumber, int streamNumber, int bufferSize) {
-        this.type = type;
+    public BenchmarkConfig(String kind, String type, int runNumber, int streamNumber, int bufferSize) {
         this.kind = kind;
+        this.type = type;
         this.n = runNumber;
         this.k = streamNumber;
         this.b = bufferSize;
     }
 
+    public BenchmarkConfig(String kind, int runNumber, int memoryAvailable, int wayMerge) {
+        this.kind = kind;
+        this.n = runNumber;
+        this.m = memoryAvailable;
+        this.d = wayMerge;
+    }
+
     public String generateResultFilename() {
-        resultFileName = String.format("%d_%s_%s_%d_%d_%d.json", Instant.now().getEpochSecond(), type, kind, n, k, b);
+        if (type != null) {
+            resultFileName = String.format("%d_%s_%s_%d_%d_%d.json", Instant.now().getEpochSecond(), type, kind, n, k, b);
+        } else {
+            resultFileName = String.format("%d_%s_%d_%d_%d.json", Instant.now().getEpochSecond(), kind, n, m, d);
+        }
         return resultFileName;
     }
 
@@ -53,5 +66,21 @@ public class BenchmarkConfig {
 
     public String getResultFileName() {
         return resultFileName;
+    }
+
+    public int getAvailableMemory() {
+        return m;
+    }
+
+    public void setAvailableMemory(int availableMemory) {
+        this.m = availableMemory;
+    }
+
+    public int getDWayMerge() {
+        return d;
+    }
+
+    public void setDWayMerge(int dWayMerge) {
+        this.d = dWayMerge;
     }
 }

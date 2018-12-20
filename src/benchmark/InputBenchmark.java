@@ -9,16 +9,15 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 class InputBenchmark {
     private BenchmarkConfig config;
     private List<Stream> streams;
     private int n;
     private String RESULT_DIR = "results/";
+    private Gson gson;
 
     InputBenchmark(BenchmarkConfig config, List<BaseInputStream> streams, List<String> filenames, int n) {
         this.config = config;
@@ -28,6 +27,7 @@ class InputBenchmark {
             this.streams.add(new Stream(streams.get(i), filenames.get(i)));
         }
         this.n = n;
+        this.gson = new Gson();
 
         // Create RESULT_DIR if not exists
         File dataDir = new File(this.RESULT_DIR);
@@ -66,7 +66,7 @@ class InputBenchmark {
                     });
             streamSummary.setEnd(System.nanoTime());
             streamSummary.setElapsed(streamSummary.getEnd() - streamSummary.getStart());
-            Gson gson = new Gson();
+            result.setSummary(streamSummary);
             writer.write(gson.toJson(result));
             writer.close();
 
