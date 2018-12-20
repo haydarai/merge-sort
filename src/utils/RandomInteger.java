@@ -14,6 +14,6 @@ public class RandomInteger {
         int min = Integer.MIN_VALUE;
         int max = Integer.MAX_VALUE;
 
-        return random.nextInt(max + 1 - min) + min;
+        return random.ints(min, max).findFirst().getAsInt();
     }
 }
