@@ -19,7 +19,7 @@ public class DirectBufferOutputStream implements BaseOutputStream {
 
     @Override
     public BaseOutputStream setBufferSize(int bufferSize) {
-        this.bufferSize = 64;
+        this.bufferSize = bufferSize;
         return this;
     }
 
