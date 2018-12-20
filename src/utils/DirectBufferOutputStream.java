@@ -6,7 +6,7 @@ import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 
 public class DirectBufferOutputStream implements BaseOutputStream {
-    private int bufferSize;
+    private long bufferSize;
     private RandomAccessFile randomAccessFile;
     private ByteBuffer byteBuffer;
 
@@ -18,7 +18,7 @@ public class DirectBufferOutputStream implements BaseOutputStream {
     }
 
     @Override
-    public BaseOutputStream setBufferSize(int bufferSize) {
+    public BaseOutputStream setBufferSize(long bufferSize) {
         this.bufferSize = bufferSize;
         return this;
     }
@@ -29,7 +29,7 @@ public class DirectBufferOutputStream implements BaseOutputStream {
         file.createNewFile();
         RandomAccessFile randomAccessFile = new RandomAccessFile(file, "rw");
 
-        ByteBuffer byteBuffer = ByteBuffer.allocateDirect(this.bufferSize);
+        ByteBuffer byteBuffer = ByteBuffer.allocateDirect((int) this.bufferSize);
         byteBuffer.clear();
 
         this.randomAccessFile = randomAccessFile;

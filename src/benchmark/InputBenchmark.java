@@ -15,11 +15,11 @@ import java.util.List;
 class InputBenchmark {
     private BenchmarkConfig config;
     private List<Stream> streams;
-    private int n;
+    private long n;
     private String RESULT_DIR = "results/";
     private Gson gson;
 
-    InputBenchmark(BenchmarkConfig config, List<BaseInputStream> streams, List<String> filenames, int n) {
+    InputBenchmark(BenchmarkConfig config, List<BaseInputStream> streams, List<String> filenames, long n) {
         this.config = config;
         int length = Math.min(streams.size(), filenames.size());
         this.streams = new ArrayList<>();

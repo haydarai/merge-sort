@@ -16,12 +16,12 @@ import java.util.UUID;
 class OutputBenchmark {
     private BenchmarkConfig config;
     private List<BaseOutputStream> streams;
-    private int n;
+    private long n;
     private String RESULT_DIR = "results/";
     private RandomInteger random;
     private Gson gson;
 
-    OutputBenchmark(BenchmarkConfig config, List<BaseOutputStream> streams, int n) {
+    OutputBenchmark(BenchmarkConfig config, List<BaseOutputStream> streams, long n) {
         this.config = config;
         this.streams = streams;
         this.n = n;

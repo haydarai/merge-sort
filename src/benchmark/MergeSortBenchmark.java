@@ -15,7 +15,7 @@ import java.io.FileWriter;
 class MergeSortBenchmark {
 
     private BenchmarkConfig config;
-    private int bufferSize;
+    private long bufferSize;
     private RandomInteger random;
     private String RESULT_DIR = "results/";
     private Gson gson;

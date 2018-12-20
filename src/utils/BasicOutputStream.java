@@ -10,7 +10,7 @@ public class BasicOutputStream implements BaseOutputStream {
     private FileOutputStream fileOutputStream;
 
     @Override
-    public BaseOutputStream setBufferSize(int bufferSize) {
+    public BaseOutputStream setBufferSize(long bufferSize) {
         return this;
     }
 

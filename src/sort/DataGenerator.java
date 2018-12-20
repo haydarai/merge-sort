@@ -1,6 +1,5 @@
 package sort;
 
-import utils.BaseOutputStream;
 import utils.MemoryMappedOutputStream;
 
 import java.io.File;
@@ -8,34 +7,35 @@ import java.util.Random;
 
 public class DataGenerator {
     private String DATAIDR = "data";
-    private BaseOutputStream baseOutputStream;
+    private MemoryMappedOutputStream outputStream;
 
-    public DataGenerator(BaseOutputStream baseOutputStream) {
+//    public DataGenerator(BaseOutputStream outputStream) {
+//        // Create data directory if not exists
+//        File directory = new File(this.DATAIDR);
+//        if (!directory.exists()) {
+//            directory.mkdir();
+//        }
+//        this.outputStream = outputStream;
+//    }
+
+    public DataGenerator() {
         // Create data directory if not exists
         File directory = new File(this.DATAIDR);
         if (!directory.exists()) {
             directory.mkdir();
         }
-        this.baseOutputStream = baseOutputStream;
-    }
-
-    public DataGenerator(long maximumMemory) {
-        // Create data directory if not exists
-        File directory = new File(this.DATAIDR);
-        if (!directory.exists()) {
-            directory.mkdir();
-        }
-        this.baseOutputStream = new MemoryMappedOutputStream(maximumMemory);
+        // Use maximum possible size bounded by the map() of the fileChannel
+        this.outputStream = new MemoryMappedOutputStream(Integer.MAX_VALUE-1);
     }
 
     public String generate(long size, String name) throws Exception {
         String filepath = this.DATAIDR.concat("/").concat(name).concat(".dat");
-        this.baseOutputStream.create(filepath);
+        this.outputStream.create(filepath);
         Random random = new Random();
         for (long i = 0; i < size; i++) {
-            this.baseOutputStream.write(random.nextInt());
+            this.outputStream.write(random.nextInt());
         }
-        this.baseOutputStream.close();
+        this.outputStream.close();
         return filepath;
     }
 }

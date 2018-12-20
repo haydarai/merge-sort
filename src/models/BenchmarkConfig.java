@@ -5,7 +5,7 @@ import java.time.Instant;
 public class BenchmarkConfig {
     private String type;
     private String kind;
-    private int n;
+    private long n;
     private int k;
     private int b;
     private int m;
@@ -52,7 +52,7 @@ public class BenchmarkConfig {
         return kind;
     }
 
-    public int getRunNumber() {
+    public long getRunNumber() {
         return n;
     }
 

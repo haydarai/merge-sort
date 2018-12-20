@@ -19,7 +19,7 @@ public class MemoryMappedOutputStream implements BaseOutputStream {
     }
 
     @Override
-    public BaseOutputStream setBufferSize(int bufferSize) {
+    public BaseOutputStream setBufferSize(long bufferSize) {
         this.bufferSize = bufferSize;
         return this;
     }
@@ -30,7 +30,6 @@ public class MemoryMappedOutputStream implements BaseOutputStream {
         file.createNewFile();
         FileChannel fileChannel = new RandomAccessFile(file, "rw").getChannel();
 
-        // Read 4 bytes integer
         MappedByteBuffer mappedByteBuffer = fileChannel.map(FileChannel.MapMode.READ_WRITE, 0, this.bufferSize);
 
         this.mappedByteBuffer = mappedByteBuffer;

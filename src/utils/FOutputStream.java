@@ -8,7 +8,7 @@ public class FOutputStream implements BaseOutputStream {
     private DataOutputStream dataOutputStream;
 
     @Override
-    public BaseOutputStream setBufferSize(int bufferSize) {
+    public BaseOutputStream setBufferSize(long bufferSize) {
         return this;
     }
 

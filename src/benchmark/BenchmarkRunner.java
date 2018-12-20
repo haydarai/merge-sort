@@ -45,25 +45,25 @@ public class BenchmarkRunner {
     }
 
     private void runInput(BenchmarkConfig config) {
-        int n = config.getRunNumber();
+        long n = config.getRunNumber();
         int k = config.getStreamNumber();
         int b = config.getBufferSize();
         String kind = config.getKind();
 
         List<BaseInputStream> inputStreams = new ArrayList<>();
         List<String> fileNames = new ArrayList<>();
-        DataGenerator generator;
-        if (kind.equalsIgnoreCase("Basic")) {
-            generator = new DataGenerator(new BasicOutputStream());
-        } else if (kind.equalsIgnoreCase("File")) {
-            generator = new DataGenerator(new FOutputStream());
-        } else if (kind.equalsIgnoreCase("Memory")) {
-            generator = new DataGenerator(new MemoryMappedOutputStream(b));
-        } else if (kind.equalsIgnoreCase("Buffer")) {
-            generator = new DataGenerator(new DirectBufferOutputStream(b));
-        } else {
-            generator = new DataGenerator(b);
-        }
+        DataGenerator generator = new DataGenerator();
+//        if (kind.equalsIgnoreCase("Basic")) {
+//            generator = new DataGenerator(new BasicOutputStream());
+//        } else if (kind.equalsIgnoreCase("File")) {
+//            generator = new DataGenerator(new FOutputStream());
+//        } else if (kind.equalsIgnoreCase("Memory")) {
+//            generator = new DataGenerator(new MemoryMappedOutputStream(b));
+//        } else if (kind.equalsIgnoreCase("Buffer")) {
+//            generator = new DataGenerator(new DirectBufferOutputStream(b));
+//        } else {
+//            generator = new DataGenerator(b);
+//        }
 
         for (int i = 0; i < k; i++) {
             if (kind.equalsIgnoreCase("Basic")) {
@@ -89,7 +89,7 @@ public class BenchmarkRunner {
     }
 
     private void runOutput(BenchmarkConfig config) {
-        int n = config.getRunNumber();
+        long n = config.getRunNumber();
         int k = config.getStreamNumber();
         int b = config.getBufferSize();
         String kind = config.getKind();
