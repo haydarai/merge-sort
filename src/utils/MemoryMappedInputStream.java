@@ -9,9 +9,9 @@ import java.nio.channels.FileChannel;
 public class MemoryMappedInputStream implements BaseInputStream {
     private FileChannel fileChannel;
     private MappedByteBuffer mappedByteBuffer;
-    private int bufferSize;
+    private long bufferSize;
 
-    public MemoryMappedInputStream(int bufferSize) {
+    public MemoryMappedInputStream(long bufferSize) {
         this.bufferSize = bufferSize;
     }
 

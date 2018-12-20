@@ -62,7 +62,7 @@ public class BenchmarkRunner {
         } else if (kind.equalsIgnoreCase("Buffer")) {
             generator = new DataGenerator(new DirectBufferOutputStream(b));
         } else {
-            generator = new DataGenerator();
+            generator = new DataGenerator(b);
         }
 
         for (int i = 0; i < k; i++) {
