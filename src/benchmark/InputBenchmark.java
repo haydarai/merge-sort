@@ -52,15 +52,26 @@ class InputBenchmark {
                         try {
                             BaseInputStream inputStream = stream.getStream();
                             String filename = stream.getFilename();
+
+                            int pos =0;
                             inputStream.open(filename);
                             for (int i = 0; i < n; i++) {
+                                if (pos>=config.getBufferSize()){
+                                    inputStream = inputStream.getClass().newInstance().setBufferSize(config.getBufferSize()).open(filename).skip(pos);
+                                    pos=0;
+                                }
                                 inputStream.readNext();
+                                pos+=1;
                             }
 
                             streamResult.setEnd(System.nanoTime());
                             streamResult.setElapsed(streamResult.getEnd() - streamResult.getStart());
                             result.addStream(streamResult);
                         } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        } catch (InstantiationException e) {
                             e.printStackTrace();
                         }
                     });

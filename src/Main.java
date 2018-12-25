@@ -7,6 +7,7 @@ public class Main {
             BenchmarkRunner runner = new BenchmarkRunner(args[0]);
             runner.run();
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("Please provide input file in csv.");
         }
     }

@@ -64,25 +64,27 @@ public class BenchmarkRunner {
 //        } else {
 //            generator = new DataGenerator(b);
 //        }
-
-        for (int i = 0; i < k; i++) {
-            if (kind.equalsIgnoreCase("Basic")) {
-                inputStreams.add(new BasicInputStream());
-            } else if (kind.equalsIgnoreCase("File")) {
-                inputStreams.add(new FInputStream());
-            } else if (kind.equalsIgnoreCase("Memory")) {
-                inputStreams.add(new MemoryMappedInputStream(b));
-            } else if (kind.equalsIgnoreCase("Buffer")) {
-                inputStreams.add(new DirectBufferInputStream(b));
-            } else {
-                continue;
+        try {
+            String sharedFileName = generator.generate(config.getRunNumber(), "SharedFileInput");
+            for (int i = 0; i < k; i++) {
+                if (kind.equalsIgnoreCase("Basic")) {
+                    inputStreams.add(new BasicInputStream());
+                } else if (kind.equalsIgnoreCase("File")) {
+                    inputStreams.add(new FInputStream());
+                } else if (kind.equalsIgnoreCase("Memory")) {
+                    inputStreams.add(new MemoryMappedInputStream(b));
+                } else if (kind.equalsIgnoreCase("Buffer")) {
+                    inputStreams.add(new DirectBufferInputStream(b));
+                } else {
+                    continue;
+                }
+                //fileNames.add(sharedFileName);
+//                fileNames.add("SharedFileInput.dat");
             }
-            try {
-                fileNames.add(generator.generate(config.getRunNumber(), String.valueOf(i)));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
 
         InputBenchmark inputBenchmark = new InputBenchmark(config, inputStreams, fileNames, n);
         inputBenchmark.run();
