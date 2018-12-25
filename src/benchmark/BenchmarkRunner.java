@@ -78,8 +78,7 @@ public class BenchmarkRunner {
                 } else {
                     continue;
                 }
-                //fileNames.add(sharedFileName);
-//                fileNames.add("SharedFileInput.dat");
+                fileNames.add(sharedFileName);
             }
         } catch (Exception e) {
             e.printStackTrace();
