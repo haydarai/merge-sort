@@ -38,8 +38,6 @@ class OutputBenchmark {
     void run() {
         String outputFileName = config.generateResultFilename();
         try {
-            final BufferedWriter writer = new BufferedWriter(new FileWriter(new File(this.RESULT_DIR, outputFileName),
-                    true));
             BenchmarkResult.Summary streamSummary = new BenchmarkResult.Summary();
             streamSummary.setStart(System.nanoTime());
             BenchmarkResult result = new BenchmarkResult();
@@ -48,7 +46,7 @@ class OutputBenchmark {
                     .forEach(stream -> {
                         BenchmarkResult.Stream streamResult = new BenchmarkResult.Stream();
                         streamResult.setStart(System.nanoTime());
-                        String filename = String.valueOf(UUID.randomUUID()) + ".dat";
+                        String filename = UUID.randomUUID() + ".dat";
                         try {
                             stream.create(filename);
                             for (int i = 0; i < n; i++) {
@@ -69,6 +67,8 @@ class OutputBenchmark {
             streamSummary.setEnd(System.nanoTime());
             streamSummary.setElapsed(streamSummary.getEnd() - streamSummary.getStart());
             result.setSummary(streamSummary);
+            final BufferedWriter writer = new BufferedWriter(new FileWriter(new File(this.RESULT_DIR, outputFileName),
+                    true));
             writer.write(gson.toJson(result));
             writer.close();
         } catch (IOException e) {
