@@ -53,17 +53,6 @@ public class BenchmarkRunner {
         List<BaseInputStream> inputStreams = new ArrayList<>();
         List<String> fileNames = new ArrayList<>();
         DataGenerator generator = new DataGenerator();
-//        if (kind.equalsIgnoreCase("Basic")) {
-//            generator = new DataGenerator(new BasicOutputStream());
-//        } else if (kind.equalsIgnoreCase("File")) {
-//            generator = new DataGenerator(new FOutputStream());
-//        } else if (kind.equalsIgnoreCase("Memory")) {
-//            generator = new DataGenerator(new MemoryMappedOutputStream(b));
-//        } else if (kind.equalsIgnoreCase("Buffer")) {
-//            generator = new DataGenerator(new DirectBufferOutputStream(b));
-//        } else {
-//            generator = new DataGenerator(b);
-//        }
         try {
             String sharedFileName = generator.generate(config.getRunNumber(), "SharedFileInput");
             for (int i = 0; i < k; i++) {

@@ -49,8 +49,25 @@ class OutputBenchmark {
                         String filename = UUID.randomUUID() + ".dat";
                         try {
                             stream.create(filename);
-                            for (int i = 0; i < n; i++) {
-                                stream.write(random.nextInt());
+                            if (config.getKind().equalsIgnoreCase("Buffer") ||
+                                config.getKind().equalsIgnoreCase("Memory")) {
+                                int usedBufferSize = 0;
+
+                                for (int i = 0; i < n; i++) {
+                                    // Check if it's going to be overflow, close then open it again
+                                    if ((usedBufferSize + 4) > config.getBufferSize()) {
+                                        stream.close();
+                                        stream = stream.open();
+                                        usedBufferSize = 0;
+                                    }
+
+                                    stream.write(random.nextInt());
+                                    usedBufferSize += 4;
+                                }
+                            } else {
+                                for (int i = 0; i < n; i++) {
+                                    stream.write(random.nextInt());
+                                }
                             }
                             stream.close();
 

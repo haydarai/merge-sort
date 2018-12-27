@@ -9,12 +9,10 @@ public class DirectBufferOutputStream implements BaseOutputStream {
     private long bufferSize;
     private RandomAccessFile randomAccessFile;
     private ByteBuffer byteBuffer;
+    private String filePath;
 
     public DirectBufferOutputStream(int bufferSize) {
         this.bufferSize = bufferSize;
-    }
-
-    public DirectBufferOutputStream() {
     }
 
     @Override
@@ -25,15 +23,24 @@ public class DirectBufferOutputStream implements BaseOutputStream {
 
     @Override
     public void create(String filePath) throws IOException {
-        File file = new File(filePath);
+        this.filePath = filePath;
+        File file = new File(this.filePath);
         file.createNewFile();
-        RandomAccessFile randomAccessFile = new RandomAccessFile(file, "rw");
+        this.randomAccessFile = new RandomAccessFile(file, "rw");
 
-        ByteBuffer byteBuffer = ByteBuffer.allocateDirect((int) this.bufferSize);
-        byteBuffer.clear();
+        this.byteBuffer = ByteBuffer.allocateDirect((int) this.bufferSize);
+        this.byteBuffer.clear();
+    }
 
-        this.randomAccessFile = randomAccessFile;
-        this.byteBuffer = byteBuffer;
+    @Override
+    public BaseOutputStream open() throws IOException {
+        File file = new File(this.filePath);
+        this.randomAccessFile = new RandomAccessFile(file, "rw");
+
+        this.byteBuffer = ByteBuffer.allocateDirect((int) this.bufferSize);
+        this.byteBuffer.clear();
+
+        return this;
     }
 
     @Override

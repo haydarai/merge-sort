@@ -53,15 +53,15 @@ class InputBenchmark {
                             BaseInputStream inputStream = stream.getStream();
                             String filename = stream.getFilename();
 
-                            int pos =0;
+                            int pos = 0;
                             inputStream.open(filename);
                             for (int i = 0; i < n; i++) {
-                                if (pos>=config.getBufferSize()){
+                                if (pos >= config.getBufferSize()) {
                                     inputStream = inputStream.getClass().newInstance().setBufferSize(config.getBufferSize()).open(filename).skip(pos);
-                                    pos=0;
+                                    pos = 0;
                                 }
                                 inputStream.readNext();
-                                pos+=1;
+                                pos += 1;
                             }
 
                             streamResult.setEnd(System.nanoTime());
@@ -82,7 +82,7 @@ class InputBenchmark {
             writer.close();
 
             // Cleanup
-            for (Stream stream: streams) {
+            for (Stream stream : streams) {
                 File file = new File(stream.getFilename());
                 file.delete();
             }

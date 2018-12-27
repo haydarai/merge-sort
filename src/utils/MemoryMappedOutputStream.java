@@ -10,12 +10,10 @@ public class MemoryMappedOutputStream implements BaseOutputStream {
     private MappedByteBuffer mappedByteBuffer;
     private FileChannel fileChannel;
     private long bufferSize;
+    private String filePath;
 
     public MemoryMappedOutputStream(long bufferSize) {
         this.bufferSize = bufferSize;
-    }
-
-    public MemoryMappedOutputStream() {
     }
 
     @Override
@@ -26,14 +24,22 @@ public class MemoryMappedOutputStream implements BaseOutputStream {
 
     @Override
     public void create(String filePath) throws IOException {
-        File file = new File(filePath);
+        this.filePath = filePath;
+        File file = new File(this.filePath);
         file.createNewFile();
-        FileChannel fileChannel = new RandomAccessFile(file, "rw").getChannel();
+        this.fileChannel = new RandomAccessFile(file, "rw").getChannel();;
 
-        MappedByteBuffer mappedByteBuffer = fileChannel.map(FileChannel.MapMode.READ_WRITE, 0, this.bufferSize);
+        this.mappedByteBuffer =  fileChannel.map(FileChannel.MapMode.READ_WRITE, 0, this.bufferSize);;
+    }
 
-        this.mappedByteBuffer = mappedByteBuffer;
-        this.fileChannel = fileChannel;
+    @Override
+    public BaseOutputStream open() throws IOException {
+        File file = new File(this.filePath);
+        this.fileChannel = new RandomAccessFile(file, "rw").getChannel();
+
+        this.mappedByteBuffer =  fileChannel.map(FileChannel.MapMode.READ_WRITE, 0, this.bufferSize);;
+
+        return this;
     }
 
     @Override

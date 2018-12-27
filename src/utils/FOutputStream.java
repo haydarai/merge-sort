@@ -6,6 +6,7 @@ public class FOutputStream implements BaseOutputStream {
     private FileOutputStream fileOutputStream;
     private BufferedOutputStream bufferedOutputStream;
     private DataOutputStream dataOutputStream;
+    private String filePath;
 
     @Override
     public BaseOutputStream setBufferSize(long bufferSize) {
@@ -14,18 +15,24 @@ public class FOutputStream implements BaseOutputStream {
 
     @Override
     public void create(String filePath) throws IOException {
-        File file = new File(filePath);
+        this.filePath = filePath;
+        File file = new File(this.filePath);
         file.createNewFile();
 
-        FileOutputStream fos = new FileOutputStream(file);
-        BufferedOutputStream bos = new BufferedOutputStream(fos);
-        DataOutputStream dos = new DataOutputStream(bos);
+        this.fileOutputStream = new FileOutputStream(file);
+        this.bufferedOutputStream = new BufferedOutputStream(this.fileOutputStream);
+        this.dataOutputStream = new DataOutputStream(this.bufferedOutputStream);
+    }
 
-        this.fileOutputStream = fos;
-        this.bufferedOutputStream = bos;
-        this.dataOutputStream = dos;
+    @Override
+    public BaseOutputStream open() throws IOException {
+        File file = new File(this.filePath);
 
+        this.fileOutputStream = new FileOutputStream(file);
+        this.bufferedOutputStream = new BufferedOutputStream(this.fileOutputStream);
+        this.dataOutputStream = new DataOutputStream(this.bufferedOutputStream);
 
+        return this;
     }
 
     @Override
