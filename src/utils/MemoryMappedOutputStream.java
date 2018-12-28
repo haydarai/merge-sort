@@ -16,6 +16,9 @@ public class MemoryMappedOutputStream implements BaseOutputStream {
         this.bufferSize = bufferSize;
     }
 
+    public MemoryMappedOutputStream() {
+    }
+
     @Override
     public BaseOutputStream setBufferSize(long bufferSize) {
         this.bufferSize = bufferSize;

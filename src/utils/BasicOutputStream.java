@@ -8,6 +8,10 @@ import java.io.IOException;
 public class BasicOutputStream implements BaseOutputStream {
     private DataOutputStream dataOutputStream;
     private FileOutputStream fileOutputStream;
+
+    public BasicOutputStream() {
+    }
+
     private String filePath;
 
     @Override

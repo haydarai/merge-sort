@@ -12,6 +12,9 @@ public class FInputStream implements BaseInputStream {
         return this;
     }
 
+    public FInputStream() {
+    }
+
     @Override
     public FInputStream open(String filePath) throws FileNotFoundException {
         FileInputStream fis = new FileInputStream(new File(filePath));

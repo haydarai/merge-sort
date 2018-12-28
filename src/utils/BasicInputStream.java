@@ -11,6 +11,9 @@ public class BasicInputStream implements BaseInputStream {
         return this;
     }
 
+    public BasicInputStream() {
+    }
+
     @Override
     public BasicInputStream open(String filePath) throws FileNotFoundException {
         FileInputStream fis = new FileInputStream(new File(filePath));

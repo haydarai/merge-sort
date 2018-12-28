@@ -40,6 +40,9 @@ public class FOutputStream implements BaseOutputStream {
         this.dataOutputStream.writeInt(value);
     }
 
+    public FOutputStream() {
+    }
+
     @Override
     public void close() throws IOException {
         this.dataOutputStream.close();
